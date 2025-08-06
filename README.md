@@ -1,12 +1,75 @@
-# React + Vite
+# 🧾 InvoSync — Smart Invoice Management System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+InvoSync is a robust, end-to-end **invoice generation and management system** built using a modern full-stack architecture — **React**, **Spring Boot**, and **MongoDB** — integrated with **event-driven AWS services** for real-time streaming and scalable processing.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- 🔐 **Secure Authentication** (JWT, Role-based)
+- 🧾 **Invoice Creation & Management**
+- 📊 **Dashboard for Payment Status**
+- 📥 **Download & Preview Invoices**
+- ☁️ **Cloud-Native Architecture**
+- 🔁 **Event-Driven Invoice Processing** via AWS Streams
+- 📱 **Responsive UI** with optimized UX
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🛠️ Tech Stack
+
+| Layer     | Technology            |
+|-----------|------------------------|
+| Frontend  | React.js, Tailwind CSS |
+| Backend   | Spring Boot (Java 17)  |
+| Database  | MongoDB                |
+| API       | RESTful APIs           |
+| Streaming | AWS DynamoDB, SQS, Lambda, MSK, EventBridge |
+| Deployment| Docker, AWS            |
+
+---
+
+## 🧩 Architecture Overview
+
+```mermaid
+graph TD
+  UI[React Frontend] -->|API Calls| BE[Spring Boot API]
+  BE --> DB[(MongoDB)]
+  DB -->|ChangeStream| DDB[DynamoDB Streams]
+  DDB --> EB[EventBridge Pipes]
+  EB --> Q[SQS (with DLQ)]
+  Q --> L[Lambda Processor]
+  L --> MSK[Kafka Topic (MSK)]
+  L --> DBUpdate[Update MongoDB Status]
+
+InvoSync supports reliable real-time streaming of invoice events across services:
+
+    📥 Invoice Insert/Update → DynamoDB Stream
+
+    📡 Stream Filter via EventBridge Pipes
+
+    📬 SQS Queue buffers events with DLQ for failures
+
+    🧠 Lambda consumes from SQS:
+
+        Sends data to MSK (Kafka)
+
+        Updates status in MongoDB
+
+    This decouples storage, processing, and streaming logic for better scalability and fault tolerance.
+
+📌 Use Cases
+
+    Freelancers needing digital invoice tracking
+
+    Small/Medium businesses automating billing
+
+    Enterprises building modular billing systems
+
+🛡️ Security
+
+    Spring Security for Authentication
+
+    JWT Tokens for Session Management
+
+    IAM Roles for AWS resource isolation

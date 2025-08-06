@@ -29,18 +29,6 @@ InvoSync is a robust, end-to-end **invoice generation and management system** bu
 
 ---
 
-## 🧩 Architecture Overview
-
-```mermaid
-graph TD
-  UI[React Frontend] -->|API Calls| BE[Spring Boot API]
-  BE --> DB[(MongoDB)]
-  DB -->|ChangeStream| DDB[DynamoDB Streams]
-  DDB --> EB[EventBridge Pipes]
-  EB --> Q[SQS (with DLQ)]
-  Q --> L[Lambda Processor]
-  L --> MSK[Kafka Topic (MSK)]
-  L --> DBUpdate[Update MongoDB Status]
 
 InvoSync supports reliable real-time streaming of invoice events across services:
 

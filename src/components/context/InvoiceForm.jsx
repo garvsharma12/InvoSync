@@ -1,4 +1,5 @@
 import {assets} from "../../assets/assets.js";
+import {Trash2} from "lucide-react";
 
 const InvoiceForm = () => {
     return (
@@ -87,13 +88,78 @@ const InvoiceForm = () => {
                 </div>
             </div>
             {/* Item details */}
-            <div className="mb-4"></div>
+            <div className="mb-4">
+                <h5>Item Details</h5>
+                <div className="card p-3 mb-3">
+                    <div className="row g-3 mb-2">
+                        <div className="col-md-3">
+                            <input type="text" className="form-control" placeholder="Item Name" />
+                        </div>
+                        <div className="col-md-3">
+                            <input type="number" className="form-control" placeholder="Qty" />
+                        </div>
+                        <div className="col-md-3">
+                            <input type="number" className="form-control" placeholder="Amount" />
+                        </div>
+                        <div className="col-md-3">
+                            <input type="number" className="form-control" placeholder="Total" />
+                        </div>
+                    </div>
+                </div>
+                <div className="d-flex gap-2">
+                    <textarea className="form-control" placeholder="Description"></textarea>
+                    <button className="btn btn-outline-danger" type="button">
+                        <Trash2 size={18}/>
+                    </button>
+                </div>
+                <button className="btn btn-primary" type="button">Add Item</button>
+            </div>
             {/* Bank Account Info */}
-            <div className="mb-4"></div>
+            <div className="mb-4">
+                <h5>Bank Account Details</h5>
+                <div className="row g-3">
+                    <div className="col-md-4">
+                        <input type="text" className="form-control" placeholder="Account Name" />
+                    </div>
+                    <div className="col-md-4">
+                        <input type="text" className="form-control" placeholder="Account Number"/>
+                    </div>
+                    <div className="col-md-4">
+                        <input type="text" className="form-control" placeholder="Branch/IFSC Code" />
+                    </div>
+                </div>
+            </div>
             {/* Totals */}
-            <div className="mb-4"></div>
+            <div className="mb-4">
+                <h5>Totals</h5>
+                <div className="f-flex justify-content-end">
+                    <div className="w-100 w-md-50">
+                        <div className="d-flex justify-content-between">
+                            <span>SubTotal</span>
+                            <span>₹{1000.00}</span>
+                        </div>
+                        <div className="d-flex justify-content-between align-items-center my-2">
+                            <label htmlFor="taxInput" className="me-2">Tax Rate(%)</label>
+                            <input type="number" id="taxInput" className="form-control w-50 text-end" placeholder="2" />
+                        </div>
+                        <div className="d-flex justify-content-between">
+                            <span>Tax Total</span>
+                            <span>₹{1000.00}</span>
+                        </div>
+                        <div className="d-flex justify-content-between fw-bold mt-2">
+                            <span>Grand Total</span>
+                            <span>₹{1000.00}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {/* Notes */}
-            <div className="mb-4"></div>
+            <div className="mb-4">
+                <h5>Notes</h5>
+                <div className="w-100">
+                    <textarea name="notes" className="form-control" row={3}></textarea>
+                </div>
+            </div>
         </div>
     )
 

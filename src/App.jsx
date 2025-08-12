@@ -5,7 +5,8 @@ import Dashboard from "./pages/Dashboard.jsx";
 import PreviewPage from "./pages/PreviewPage.jsx";
 import MainPage from "./pages/MainPage.jsx";
 import LandingPage from "./pages/LandingPage/LandingPage.jsx";
-//console.log("Is PreviewPage imported?", PreviewPage);
+import InvoiceForm from "./components/context/InvoiceForm.jsx";
+
 const App = () => {
     return (
         <BrowserRouter>

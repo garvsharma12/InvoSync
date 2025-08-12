@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Pencil } from "lucide-react";
+import InvoiceForm from "../components/context/InvoiceForm.jsx";
 
 const MainPage = () => {
     const [invoiceTitle, setInvoiceTitle] = useState("New Invoice");
@@ -51,7 +52,7 @@ const MainPage = () => {
                     {/* Invoice form */}
                     <div className="col-12 col-lg-6 d-flex">
                         <div className="bg-white border rounded shadow-sm p-4 w-100">
-                            invoice form
+                            <InvoiceForm />
                         </div>
                     </div>
 

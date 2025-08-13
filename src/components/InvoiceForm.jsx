@@ -1,7 +1,27 @@
 import {assets} from "../assets/assets.js";
 import {Trash2} from "lucide-react";
+import {useContext} from "react";
+import { AppContext } from "./context/appContext.jsx";
 
 const InvoiceForm = () => {
+    const {invoiceData, setInvoiceData} = useContext(AppContext);
+
+    const addItem = () =>{
+        setInvoiceData((
+            setInvoiceData((prev) => ({
+                ...prev,
+                items: [...prev.items, { name: "", qty: 0, description: "", total: 0 }],
+            }))
+        ))
+    }
+
+    const deleteItem = (index) =>{
+        const items = invoiceData.items.filter((_, i) => i !== index);
+        setInvoiceData((prev) => ({
+            ...prev,
+            items,
+        }))
+    }
     return (
         <div className="invoiceform container py-4">
 
@@ -90,30 +110,102 @@ const InvoiceForm = () => {
             {/* Item details */}
             <div className="mb-4">
                 <h5>Item Details</h5>
-                <div className="card p-3 mb-3">
-                    <div className="row g-3 mb-2">
-                        <div className="col-md-3">
-                            <input type="text" className="form-control" placeholder="Item Name" />
+                {invoiceData?.items?.map((item, index) => (
+                    <div key={index} className="card p-3 mb-3">
+                        <div className="row g-3 mb-2">
+                            <div className="col-md-3">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Item Name"
+                                    value={item.name}
+                                    onChange={(e) => {
+                                        const updatedItems = [...invoiceData.items];
+                                        updatedItems[index].name = e.target.value;
+                                        setInvoiceData({ ...invoiceData, items: updatedItems });
+                                    }}
+                                />
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Qty"
+                                    value={item.qty}
+                                    onChange={(e) => {
+                                        const updatedItems = [...invoiceData.items];
+                                        updatedItems[index].qty = Number(e.target.value);
+                                        setInvoiceData({ ...invoiceData, items: updatedItems });
+                                    }}
+                                />
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Amount"
+                                    value={item.total}
+                                    onChange={(e) => {
+                                        const updatedItems = [...invoiceData.items];
+                                        updatedItems[index].total = Number(e.target.value);
+                                        setInvoiceData({ ...invoiceData, items: updatedItems });
+                                    }}
+                                />
+                            </div>
+                            <div className="col-md-3">
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    placeholder="Total"
+                                    value={item.qty * item.total}
+                                    readOnly
+                                />
+                            </div>
                         </div>
-                        <div className="col-md-3">
-                            <input type="number" className="form-control" placeholder="Qty" />
-                        </div>
-                        <div className="col-md-3">
-                            <input type="number" className="form-control" placeholder="Amount" />
-                        </div>
-                        <div className="col-md-3">
-                            <input type="number" className="form-control" placeholder="Total" />
+
+                        <div className="d-flex gap-2">
+        <textarea
+            className="form-control"
+            placeholder="Description"
+            value={item.description}
+            onChange={(e) => {
+                const updatedItems = [...invoiceData.items];
+                updatedItems[index].description = e.target.value;
+                setInvoiceData({ ...invoiceData, items: updatedItems });
+            }}
+        ></textarea>
+                            {invoiceData.items.length > 1 && (
+                                <button
+                                    className="btn btn-danger"
+                                    type="button"
+                                    onClick={() => {
+                                        deleteItem(index)
+                                    }}
+                                >
+                                    <Trash2 size={18} />
+                                </button>
+                            )}
                         </div>
                     </div>
-                </div>
-                <div className="d-flex gap-2">
-                    <textarea className="form-control" placeholder="Description"></textarea>
-                    <button className="btn btn-outline-danger" type="button">
-                        <Trash2 size={18}/>
-                    </button>
-                </div>
-                <button className="btn btn-primary" type="button">Add Item</button>
+                ))}
+
+                <button
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={(addItem) => {
+                        setInvoiceData({
+                            ...invoiceData,
+                            items: [
+                                ...invoiceData.items,
+                                { name: "", qty: 0, description: "", total: 0 },
+                            ],
+                        });
+                    }}
+                >
+                    Add Item
+                </button>
             </div>
+
             {/* Bank Account Info */}
             <div className="mb-4">
                 <h5>Bank Account Details</h5>

@@ -1,4 +1,4 @@
-import {assets} from "../../assets/assets.js";
+import {assets} from "../assets/assets.js";
 import {Trash2} from "lucide-react";
 
 const InvoiceForm = () => {

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Pencil } from "lucide-react";
-import InvoiceForm from "../components/context/InvoiceForm.jsx";
+import InvoiceForm from "../components/InvoiceForm.jsx";
+import TemplateGrid from "../components/TemplateGrid.jsx";
 
 const MainPage = () => {
     const [invoiceTitle, setInvoiceTitle] = useState("New Invoice");
@@ -59,7 +60,7 @@ const MainPage = () => {
                     {/* Template grid */}
                     <div className="col-12 col-lg-6 d-flex">
                         <div className="bg-white border rounded shadow-sm p-4 w-100">
-                            template grid
+                            <TemplateGrid/>
                         </div>
                     </div>
                 </div>

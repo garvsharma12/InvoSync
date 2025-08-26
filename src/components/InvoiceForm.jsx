@@ -1,6 +1,6 @@
 import {assets} from "../assets/assets.js";
 import {Trash2} from "lucide-react";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import { AppContext } from "./context/appContext.jsx";
 
 const InvoiceForm = () => {
@@ -64,6 +64,30 @@ const InvoiceForm = () => {
         }));
     };
 
+    const handleLogoUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setInvoiceData((prev) => ({
+                    ...prev,
+                    logo: event.result,
+                }))
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    useEffect(() => {
+        if(!invoiceData.invoice.number) {
+            const randomNumber = `INV-${Math.floor(1000000 + Math.random() * 9000000)}`;
+            setInvoiceData((prev) => ({
+                ...prev,
+                invoice: {...prev.invoice, number: randomNumber},
+            }))
+        }
+    },[])
+
     return (
         <div className="invoiceform container py-4">
 
@@ -72,9 +96,15 @@ const InvoiceForm = () => {
                 <h5>Company Logo</h5>
                 <div className="d-flex align-items-center gap-3">
                     <label htmlFor="image" className="form-label">
-                        <img src={assets.uploadIcon} alt="upload" width={98} />
+                        <img src={invoiceData.logo ? invoiceData.logo:assets.uploadIcon} alt="upload" width={98} />
                     </label>
-                    <input type="file" name="logo" id="image" hidden className="form-control" accept="image/*"/>
+                    <input type="file"
+                           name="logo"
+                           id="image"
+                           className="form-control"
+                           accept="image/*"
+                            onChange={handleLogoUpload}
+                    />
                 </div>
             </div>
             {/* Company Info */}
@@ -192,7 +222,8 @@ const InvoiceForm = () => {
                     <div className="col-md-4">
                         <label htmlFor="invoiceNumber" className="form-label">Invoice Number</label>
                         <input type="text"
-                               disabled className="form-control"
+                               disabled
+                               className="form-control"
                                placeholder="Invoice Number"
                                id="invoiceNumber"
                                value={invoiceData.invoice.number}
@@ -309,7 +340,6 @@ const InvoiceForm = () => {
                     Add Item
                 </button>
             </div>
-
             {/* Bank Account Info */}
             <div className="mb-4">
                 <h5>Bank Account Details</h5>
@@ -383,6 +413,7 @@ const InvoiceForm = () => {
                     ></textarea>
                 </div>
             </div>
+
         </div>
     )
 

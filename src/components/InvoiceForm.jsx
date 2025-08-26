@@ -31,7 +31,17 @@ const InvoiceForm = () => {
                 [field]: value,
             },
         }));
+    }
+
+    const calculateTotal = () => {
+        let subTotal = invoiceData.items.reduce((sum, item) => sum + (item.total || 0), 0);
+        let taxRate  = Number(invoiceData.tax) || 0;
+        let taxAmount = subTotal * (taxRate / 100);
+        let grandTotal = subTotal + taxAmount;
+        return { subTotal, taxAmount, grandTotal };
     };
+
+    const{subTotal, taxAmount, grandTotal} = calculateTotal();
 
     const handleSameAsBilling = () => {
         setInvoiceData((prev) => ({
@@ -305,13 +315,25 @@ const InvoiceForm = () => {
                 <h5>Bank Account Details</h5>
                 <div className="row g-3">
                     <div className="col-md-4">
-                        <input type="text" className="form-control" placeholder="Account Name" />
+                        <input type="text"
+                               className="form-control"
+                               placeholder="Account Name" />
+                                value={invoiceData.account.name}
+                                onChange={(e)=>handleChange("account", "name", e.target.value)}
                     </div>
                     <div className="col-md-4">
-                        <input type="text" className="form-control" placeholder="Account Number"/>
+                        <input type="text"
+                               className="form-control"
+                               placeholder="Account Number"/>
+                                value={invoiceData.account.number}
+                                onChange={(e)=>handleChange("account", "number", e.target.value)}
                     </div>
                     <div className="col-md-4">
-                        <input type="text" className="form-control" placeholder="Branch/IFSC Code" />
+                        <input type="text"
+                               className="form-control"
+                               placeholder="Branch/IFSC Code" />
+                               value={invoiceData.account.ifsccode}
+                        onChange={(e)=>handleChange("account", "ifsccode", e.target.value)}
                     </div>
                 </div>
             </div>
@@ -322,19 +344,27 @@ const InvoiceForm = () => {
                     <div className="w-100 w-md-50">
                         <div className="d-flex justify-content-between">
                             <span>SubTotal</span>
-                            <span>₹{1000.00}</span>
+                            <span>₹{subTotal.toFixed(2)}</span>
                         </div>
                         <div className="d-flex justify-content-between align-items-center my-2">
                             <label htmlFor="taxInput" className="me-2">Tax Rate(%)</label>
-                            <input type="number" id="taxInput" className="form-control w-50 text-end" placeholder="2" />
+                            <input type="number"
+                                   id="taxInput"
+                                   className="form-control w-50 text-end"
+                                   placeholder="2"
+                                    value={invoiceData.tax}
+                                   onChange={(e)=>setInvoiceData((prev) => ({
+                                   ...prev, tax: e.target.value}
+                                   ))}
+                            />
                         </div>
                         <div className="d-flex justify-content-between">
                             <span>Tax Total</span>
-                            <span>₹{1000.00}</span>
+                            <span>₹{taxAmount.toFixed(2)}</span>
                         </div>
                         <div className="d-flex justify-content-between fw-bold mt-2">
                             <span>Grand Total</span>
-                            <span>₹{1000.00}</span>
+                            <span>₹{grandTotal.toFixed(2)}</span>
                         </div>
                     </div>
                 </div>
@@ -343,7 +373,14 @@ const InvoiceForm = () => {
             <div className="mb-4">
                 <h5>Notes</h5>
                 <div className="w-100">
-                    <textarea name="notes" className="form-control" row={3}></textarea>
+                    <textarea name="notes"
+                              className="form-control"
+                              rows={3}
+                                value={invoiceData.notes}
+                                onChange={(e)=>setInvoiceData((prev) => ({
+                                    ...prev, notes: e.target.value
+                                }))}
+                    ></textarea>
                 </div>
             </div>
         </div>

@@ -13,6 +13,7 @@ InvoSync is a robust, end-to-end **invoice generation and management system** bu
 - ☁️ **Cloud-Native Architecture**
 - 🔁 **Event-Driven Invoice Processing** via AWS Streams
 - 📱 **Responsive UI** with optimized UX
+- Option to select invoice theme 
 
 ---
 

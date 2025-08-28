@@ -4,6 +4,7 @@ import InvoiceForm from "../components/InvoiceForm.jsx";
 import TemplateGrid from "../components/TemplateGrid.jsx";
 import {AppContext} from "../components/context/appContext.jsx";
 import toast from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 
 const MainPage = () => {
     const [isEditingTitle, setIsEditingTitle] = useState(false);
@@ -12,7 +13,7 @@ const MainPage = () => {
         invoiceData, setInvoiceData,
         setSelectedTemplate
         } = useContext(AppContext);
-
+    const navigate = useNavigate();
     const handleTemplateClick = (templateId) => {
         const hasInvalidItem = invoiceData.items.some(
             (item) => !item.qty || !item.amount
@@ -22,6 +23,7 @@ const MainPage = () => {
             return;
         }
         setSelectedTemplate(templateId);
+        navigate('/preview');
     }
     const handleTitleChange = (e) => {
         const newTitle = e.target.value;

@@ -7,7 +7,10 @@ const Menubar = () => {
             <div className="container py-2">
                 <Link className="navbar-brand d-flex align-items-center" to="/">
                     <Logo />
-                    <span className="fw-bolder fs-4 mx-3" style={{ letterSpacing: "-0.5px", color: "#0D6EFDB2" }}>
+                    <span
+                        className="fw-bolder fs-4 mx-3"
+                        style={{ letterSpacing: "-0.5px", color: "#0D6EFDB2" }}
+                    >
                         InvoSync
                     </span>
                 </Link>
@@ -23,7 +26,7 @@ const Menubar = () => {
                     <span className="navbar-toggler-icon"></span>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
-                    <ul className="navbar-nav ms-auto align-items-center">
+                    <ul className="navbar-nav ms-auto align-items-center gap-3">
                         <li className="nav-item">
                             <Link className="nav-link fw-medium" to="/dashboard">
                                 Dashboard
@@ -35,20 +38,20 @@ const Menubar = () => {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <button className="nav-link fw-medium">
+                            <Link className="nav-link fw-medium" to="/generate">
                                 Generate
-                            </button>
+                            </Link>
                         </li>
                         <li className="nav-item">
-                            <button className="btn btn-primary rounded-pill px-4">
+                            <Link className="btn btn-primary rounded-pill px-4" to="/login">
                                 Login/Signup
-                            </button>
+                            </Link>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-    )
-}
+    );
+};
 
 export default Menubar;

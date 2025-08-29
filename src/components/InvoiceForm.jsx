@@ -54,15 +54,17 @@ const InvoiceForm = () => {
 
     const handleItemChange = (index, field, value) => {
         const updatedItems = [...invoiceData.items];
-        updatedItems[index][field] = value;
-        if(field === "qty" || field === "amount"){
-            updatedItems[index].total = (updatedItems[index].qty || 0) * (updatedItems[index].amount || 0);
+        updatedItems[index][field] = field === "qty" || field === "amount" ? Number(value) : value;
+        if (field === "qty" || field === "amount") {
+            updatedItems[index].total =
+                (Number(updatedItems[index].qty) || 0) * (Number(updatedItems[index].amount) || 0);
         }
         setInvoiceData((prev) => ({
             ...prev,
-            updatedItems
+            items: updatedItems,
         }));
     };
+
 
     const handleLogoUpload = (e) => {
         const file = e.target.files[0];
@@ -273,9 +275,7 @@ const InvoiceForm = () => {
                                     className="form-control"
                                     placeholder="Qty"
                                     value={item.qty}
-                                    onChange={(e) => {
-                                        handleItemChange(index, "qty", e.target.value);
-                                    }}
+                                    onChange={(e) => handleItemChange(index, "qty", e.target.value)}
                                 />
                             </div>
                             <div className="col-md-3">
@@ -283,10 +283,8 @@ const InvoiceForm = () => {
                                     type="number"
                                     className="form-control"
                                     placeholder="Amount"
-                                    value={item.total}
-                                    onChange={(e) => {
-                                        handleItemChange(index, "total", e.target.value);
-                                    }}
+                                    value={item.amount || 0}
+                                    onChange={(e) => handleItemChange(index, "amount", e.target.value)}
                                 />
                             </div>
                             <div className="col-md-3">
@@ -294,10 +292,11 @@ const InvoiceForm = () => {
                                     type="number"
                                     className="form-control"
                                     placeholder="Total"
-                                    value={item.description}
+                                    value={item.total || 0}
                                     disabled
                                 />
                             </div>
+
                         </div>
 
                         <div className="d-flex gap-2">
